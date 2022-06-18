@@ -17,8 +17,8 @@ docker run -d -p 8080:8080 --restart always zercle/kucoin-proxy
             "timeout": 60000,
             "urls": {
                 "api": {
-                    "public": "http://127.0.01:8080/kucoin",
-                    "private": "http://127.0.01:8080/kucoin"
+                    "public": "http://127.0.0.1:8080/kucoin",
+                    "private": "http://127.0.0.1:8080/kucoin"
                 }
             }
         },
