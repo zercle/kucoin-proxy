@@ -1,10 +1,9 @@
 # syntax=docker/dockerfile:1
 # Builder from mikekonan/exchange-proxy
 FROM golang AS builder
-ARG LATEST_TAG=v1.2.6
-ENV BUILD_TAG $LATEST_TAG
 WORKDIR /src/app
-RUN git clone --depth 1 --branch ${BUILD_TAG} https://github.com/mikekonan/exchange-proxy.git && cd exchange-proxy && go get github.com/mailru/easyjson && go install github.com/mailru/easyjson/...@latest && go mod tidy && make generate && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /src/app/dist/kucoin-proxy .
+RUN 
+RUN git clone --depth 1 --branch $(curl --silent "https://api.github.com/repos/traefik/traefik/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') https://github.com/mikekonan/exchange-proxy.git && cd exchange-proxy && go get github.com/mailru/easyjson && go install github.com/mailru/easyjson/...@latest && go mod tidy && make generate && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /src/app/dist/kucoin-proxy .
 
 # Container from builder
 FROM debian:stable-slim
