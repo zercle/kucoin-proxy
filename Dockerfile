@@ -2,7 +2,6 @@
 # Builder from mikekonan/exchange-proxy
 FROM golang AS builder
 WORKDIR /src/app
-RUN 
 RUN git clone --depth 1 --branch $(curl --silent "https://api.github.com/repos/mikekonan/exchange-proxy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') https://github.com/mikekonan/exchange-proxy.git && cd exchange-proxy && go get github.com/mailru/easyjson && go install github.com/mailru/easyjson/...@latest && go mod tidy && make generate && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /src/app/dist/kucoin-proxy .
 
 # Container from builder
